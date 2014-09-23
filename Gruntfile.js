@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   "use strict";
-  
+
   // List required source files that will be built into wysihtml5x.js
   var base = [
     "src/polyfills.js",
@@ -80,6 +80,7 @@ module.exports = function(grunt) {
     "src/commands/insertList.js",
     "src/commands/italic.js",
     "src/commands/justifyCenter.js",
+    "src/commands/justifyCommon.js",
     "src/commands/justifyLeft.js",
     "src/commands/justifyRight.js",
     "src/commands/justifyFull.js",
@@ -104,7 +105,7 @@ module.exports = function(grunt) {
     "src/views/textarea.js",
     "src/editor.js"
   ];
-  
+
   // List of optional source files that will be built to wysihtml5x-toolbar.js
   var toolbar = [
     "src/toolbar/dialog.js",
