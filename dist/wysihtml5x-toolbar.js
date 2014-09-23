@@ -11426,15 +11426,8 @@ wysihtml5.commands.formatCode = {
         return wysihtml5.commands[text_command].exec(composer, text_command);
       }
     },
-
     state: function(composer, command) {
-      var selectedNode = composer.selection.getSelectedNode();
-      if (selectedNode && selectedNode.nodeName === NODE_NAME)
-        return selectedNode;
-      if (selectedNode && selectedNode.nodeName === 'SPAN' && selectedNode.className === 'image-wrapper')
-        if (selectedNode.childNodes.length === 1 && selectedNode.childNodes[0].nodeName === NODE_NAME)
-          return selectedNode.childNodes[0]
-      return false;
+      return wysihtml5.commands.insertImage.state(composer, command);
     }
   };
 })(wysihtml5);
