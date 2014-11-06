@@ -58,7 +58,10 @@
         */
         this.loaded = true;
         // Trigger the callback
-        setTimeout(function() { that.callback(that); }, 0);
+        setTimeout(function() {
+          if(!!rangy && !!rangy.getSelection)
+            rangy.getSelection().removeAllRanges();
+          that.callback(that); }, 0);
       },
 
       _getHtml: function(templateVars) {
