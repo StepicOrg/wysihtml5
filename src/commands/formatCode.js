@@ -10,7 +10,7 @@ wysihtml5.commands.formatCode = {
 
   exec: function(composer, command, classname) {
     var pre = this.state(composer),
-        code, range, selectedNodes;
+        code, range, selectedNodes, br, nextElement, parentElement;
     if (pre) {
       // caret is already within a <pre><code>...</code></pre>
       composer.selection.executeAndRestore(function() {
@@ -34,6 +34,20 @@ wysihtml5.commands.formatCode = {
       pre.appendChild(code);
       code.appendChild(selectedNodes);
       range.insertNode(pre);
+      nextElement = pre.nextSibling;
+      parent = pre.parentElement;
+      br = document.createElement('BR');
+      if(!!nextElement){
+        if (nextElement.nodeName != 'BR')
+          if(nextElement.nodeName === '#text'){
+            if(nextElement.nodeValue === '')
+              nextElement.nodeValue = "\u00a0";
+          }else{
+            nextElement.insertBefore(br, nextElement);
+          }
+      } else {
+        parent.appendChild(br);
+      }
       composer.selection.selectNode(pre);
     }
   },
