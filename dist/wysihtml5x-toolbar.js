@@ -13312,7 +13312,7 @@ wysihtml5.views.View = Base.extend(
     // Pass false to disable
     uneditableContainerClassname: "wysihtml5-uneditable-container",
     // Browsers that support copied source handling will get a marking of the origin of the copied source (for determinig code cleanup rules on paste)
-    // Also copied source is based directly on selection - 
+    // Also copied source is based directly on selection -
     // (very useful for webkit based browsers where copy will otherwise contain a lot of code and styles based on whatever and not actually in selection).
     // If falsy value is passed source override is also disabled
     copyedFromMarking: '<meta name="copied-from" content="wysihtml5">'
@@ -13467,13 +13467,19 @@ wysihtml5.views.View = Base.extend(
     },
 
     _cleanAndPaste: function (oldHtml) {
+      var partialUpdate = this.composer.selection.getHtml() !== this.composer.editableArea.innerHTML.replace(/^\s+|\s+$/g,'');
       var cleanHtml = wysihtml5.quirks.cleanPastedHTML(oldHtml, {
         "referenceNode": this.composer.element,
         "rules": this.config.pasteParserRulesets || [{"set": this.config.parserRules}],
         "uneditableClass": this.config.uneditableContainerClassname
       });
-      this.composer.selection.deleteContents();
-      this.composer.selection.insertHTML(cleanHtml);
+      if (partialUpdate){
+        this.composer.selection.deleteContents();
+        this.composer.selection.insertHTML(cleanHtml);
+      }else{
+        this.composer.editableArea.innerHTML = cleanHtml;
+      }
+
     }
   });
 })(wysihtml5);
