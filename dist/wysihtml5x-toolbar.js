@@ -13466,8 +13466,40 @@ wysihtml5.views.View = Base.extend(
       }
     },
 
+    _isPartialUpdate: function() {
+      var selectedFromStart = false;
+      var selectedToEnd = false;
+      var anchorElement = this.composer.editableArea;
+      var range = this.composer.selection.getRange();
+      var isLeftMost = function(range, anchor){
+        var currentElement = range.startContainer;
+        while(currentElement !== anchor) {
+          if(currentElement.previousElementSibling){
+            return false;
+          }
+          currentElement = currentElement.parentElement;
+        }
+        return range.startOffset == 0;
+      };
+      selectedFromStart = isLeftMost(range, anchorElement);
+      var isRightMost = function(range, anchor){
+        var currentElement = range.startContainer;
+        while(currentElement !== anchor) {
+          if(currentElement.nextElementSibling){
+            return false;
+          }
+          currentElement = currentElement.parentElement;
+        }
+        return range.endOffset == range.endContainer.length;
+      };
+      selectedToEnd = isLeftMost(range, anchorElement);
+      var isPartial = !(selectedFromStart && selectedToEnd);
+      return isPartial;
+      //return this.composer.selection.getHtml() !== this.composer.editableArea.innerHTML.replace(/^\s+|\s+$/g,'');
+    },
+
     _cleanAndPaste: function (oldHtml) {
-      var partialUpdate = this.composer.selection.getHtml() !== this.composer.editableArea.innerHTML.replace(/^\s+|\s+$/g,'');
+      var partialUpdate = this._isPartialUpdate();
       var cleanHtml = wysihtml5.quirks.cleanPastedHTML(oldHtml, {
         "referenceNode": this.composer.element,
         "rules": this.config.pasteParserRulesets || [{"set": this.config.parserRules}],
