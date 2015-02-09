@@ -255,7 +255,7 @@
         }
         return range.endOffset == range.endContainer.length;
       };
-      selectedToEnd = isLeftMost(range, anchorElement);
+      selectedToEnd = isRightMost(range, anchorElement);
       var isPartial = !(selectedFromStart && selectedToEnd);
       return isPartial;
     },

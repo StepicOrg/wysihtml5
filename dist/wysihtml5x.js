@@ -13492,10 +13492,9 @@ wysihtml5.views.View = Base.extend(
         }
         return range.endOffset == range.endContainer.length;
       };
-      selectedToEnd = isLeftMost(range, anchorElement);
+      selectedToEnd = isRightMost(range, anchorElement);
       var isPartial = !(selectedFromStart && selectedToEnd);
       return isPartial;
-      //return this.composer.selection.getHtml() !== this.composer.editableArea.innerHTML.replace(/^\s+|\s+$/g,'');
     },
 
     _cleanAndPaste: function (oldHtml) {
