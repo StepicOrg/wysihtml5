@@ -246,7 +246,7 @@
       };
       selectedFromStart = isLeftMost(range, anchorElement);
       var isRightMost = function(range, anchor){
-        var currentElement = range.startContainer;
+        var currentElement = range.endContainer;
         while(currentElement !== anchor) {
           if(currentElement.nextElementSibling){
             return false;
