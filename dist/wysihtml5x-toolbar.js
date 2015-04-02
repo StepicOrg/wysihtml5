@@ -13473,24 +13473,43 @@ wysihtml5.views.View = Base.extend(
       var range = this.composer.selection.getRange();
       var isLeftMost = function(range, anchor){
         var currentElement = range.startContainer;
-        while(currentElement !== anchor) {
-          if(currentElement.previousElementSibling){
-            return false;
+        var leftElement = null;
+        var firstElements = [];
+        while (currentElement !== anchor) {
+          leftElement = currentElement.previousElementSibling;
+          while (leftElement) {
+            if (leftElement.className != "rangySelectionBoundary")
+              return false;
+            leftElement = leftElement.previousElementSibling;
           }
           currentElement = currentElement.parentElement;
         }
-        return range.startOffset == 0;
+        firstElements = Array.prototype.slice.call(range.startContainer.childNodes).slice(0, range.startOffset - 1);
+        for (var element in firstElements)
+          if (element.className != "rangySelectionBoundary")
+            return false;
+        return true;
       };
       selectedFromStart = isLeftMost(range, anchorElement);
       var isRightMost = function(range, anchor){
         var currentElement = range.endContainer;
+        var rightElement = null;
+        var lastElements = [];
         while(currentElement !== anchor) {
-          if(currentElement.nextElementSibling){
-            return false;
+          rightElement = currentElement.nextElementSibling;
+          while (rightElement) {
+            if (rightElement.className != "rangySelectionBoundary")
+              return false;
+            rightElement = rightElement.nextElementSibling;
           }
           currentElement = currentElement.parentElement;
         }
-        return range.endOffset == range.endContainer.length;
+        lastElements = Array.prototype.slice.call(range.endContainer.childNodes);
+        lastElements = lastElements.slice(range.endOffset)
+        for (var element in lastElements)
+          if (element.className != "rangySelectionBoundary")
+            return false;
+        return true;
       };
       selectedToEnd = isRightMost(range, anchorElement);
       var isPartial = !(selectedFromStart && selectedToEnd);
