@@ -441,15 +441,10 @@ var editors = [];
       pasteParserRulesets: wysihtml5ParserPasteRulesets
       //showToolbarAfterInit: false
     });
-    var saved_selection = null;
     editors.push(e);
 
     e.on("showSource", function() {
       alert(e.getValue(true));
-    });
-
-    e.on('interaction:composer', function(){
-      saved_selection = rangy.saveSelection(document.defaultView);
     });
 
   });
