@@ -12439,6 +12439,7 @@ wysihtml5.views.View = Base.extend(
     _initLineBreaking: function() {
       var that                              = this,
           USE_NATIVE_LINE_BREAK_INSIDE_TAGS = ["LI", "P", "H1", "H2", "H3", "H4", "H5", "H6"],
+          CODE_PRE                          = ["CODE", "PRE"],
           LIST_TAGS                         = ["UL", "OL", "MENU"];
 
       function adjust(selectedNode) {
@@ -12489,6 +12490,12 @@ wysihtml5.views.View = Base.extend(
         }
 
         if (keyCode !== wysihtml5.ENTER_KEY && keyCode !== wysihtml5.BACKSPACE_KEY) {
+          return;
+        }
+        var codeElement = dom.getParentElement(that.selection.getSelectedNode(), { nodeName: CODE_PRE }, 4);
+        if (codeElement && keyCode === wysihtml5.ENTER_KEY) { //inside pre code
+          event.preventDefault();
+          that.commands.exec("insertHTML", "\n");
           return;
         }
         var blockElement = dom.getParentElement(that.selection.getSelectedNode(), { nodeName: USE_NATIVE_LINE_BREAK_INSIDE_TAGS }, 4);
