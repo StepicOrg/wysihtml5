@@ -10953,7 +10953,7 @@ wysihtml5.commands.formatCode = {
 
   function _getApplier(tagName, className, classRegExp, cssStyle, styleRegExp, container) {
     var identifier = tagName;
-    
+
     if (className) {
       identifier += ":" + className;
     }
@@ -11023,6 +11023,7 @@ wysihtml5.commands.formatCode = {
           wysihtml5.commands.formatInline.exec(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp);
         }
       }
+      composer.selection.deselect();
     },
 
     state: function(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp) {
