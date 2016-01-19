@@ -11002,6 +11002,7 @@ wysihtml5.commands.formatCode = {
     // This works on built in contenteditable inline format commands
     execWithToggle: function(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp) {
       var that = this;
+      var range = null;
 
       if (this.state(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp) &&
         composer.selection.isCollapsed() &&
@@ -11023,7 +11024,9 @@ wysihtml5.commands.formatCode = {
           wysihtml5.commands.formatInline.exec(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp);
         }
       }
-      composer.selection.deselect();
+      range = composer.selection.getRange()
+      range.collapse();
+      composer.selection.setSelection(range);
     },
 
     state: function(composer, command, tagName, className, classRegExp, cssStyle, styleRegExp) {
