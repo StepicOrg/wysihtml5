@@ -8322,7 +8322,7 @@ wysihtml5.dom.getPastedHtml = function(event) {
     if (wysihtml5.lang.array(event.clipboardData.types).contains('text/html')) {
       html = event.clipboardData.getData('text/html');
     } else if (wysihtml5.lang.array(event.clipboardData.types).contains('text/plain')) {
-      html = wysihtml5.lang.string(event.clipboardData.getData('text/plain')).escapeHTML(true, true);
+      html = wysihtml5.lang.string(event.clipboardData.getData('text/plain')).escapeHTML(true, false);
     }
   }
   return html;
@@ -8348,7 +8348,8 @@ wysihtml5.dom.getPastedHtmlWithDiv = function (composer, f) {
     f(cleanerDiv.innerHTML);
     cleanerDiv.parentNode.removeChild(cleanerDiv);
   }, 0);
-};;/**
+};
+;/**
  * Fix most common html formatting misbehaviors of browsers implementation when inserting
  * content via copy & paste contentEditable
  *
